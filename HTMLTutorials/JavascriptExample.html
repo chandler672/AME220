@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src='https://code.jquery.com/jquery-3.1.1.min.js'>
+  </script>
+  <style>
+    #box{
+      height: 100px;
+      width: 100px;
+      background-color: blue;
+    }
+  </style>
+  <script>
+  function boxClicked()
+  {
+    $("#box").css("background-color",$("#color").val())
+    $("#box").css("height",$("#height").val())
+    $("#box").css("width",$("#width").val())
+  }
+  </script>
+</head>
+
+<body>
+  <input id='color' placeholder="Color Value Ex. #FF00FF">
+  <input id='height' placeholder="Height Value">
+  <input id='width' placeholder="Width Value">
+  <br>
+  <button onclick='boxClicked()'>Click Me!</button>
+  <button onclick='$("#box").hide()'>Hide</button>
+  <button onclick='$("#box").show()'>Show</button>
+  <br><hr>
+  <div id="box"></div>
+</body>
+
+</html>
