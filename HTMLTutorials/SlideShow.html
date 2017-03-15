@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<script src='https://code.jquery.com/jquery-3.1.1.min.js'>
+</script>
+
+<script>
+var currSlide = 0;
+
+var imageList = [
+  'https://upload.wikimedia.org/wikipedia/commons/1/10/Portsmouth_Cathedral_Nave%2C_Portsmouth%2C_Hampshire%2C_UK_-_Diliff.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Oenothera_rubricaulis_2014_G1.jpg/350px-Oenothera_rubricaulis_2014_G1.jpg',
+  'https://static01.nyt.com/images/2015/04/23/science/hubble_25/hubble_25-jumbo.jpg',
+  ''
+  ];
+  function buildSS()
+  {
+    var numMU = "";
+    var ssMU = "";
+    for(var i = 0; i < imageList.length; i++){
+      numMU += '<button onclick="goToSlide(' + i + ')">' + (i+1) + "</button>";
+      ssMU += '<div class="slide" style="background-image:url(' + imageList[i] + ')">' + "</div>";
+    }
+    document.getElementById("numWrapper").innerHTML = numMU;
+    document.getElementById("ssWrapper").innerHTML = ssMU;
+    goToSlide(0);
+  }
+  function goToSlide(n)
+  {
+    $(".slide:nth-of-type(1)").animate({"margin-left": "-100%"},1000);
+    $(".slide:nth-of-type(" + (n+1) + ")").stop().animate({"margin-left": "100%"},1000);
+    $("#numWrapper button").removeClass('active');
+    $("#numWrapper button:nth-of-type(" + (n+1) + ")").addClass('active');
+    currSlide = n;
+  }
+  function prev()
+  {
+    if(currSlide==0)
+    {
+      goToSlide(imageList.length-1);
+    }else {
+      goToSlide(currSlide-1);
+    }
+  }
+  function next()
+  {
+    if(currSlide==imageList.length-1)
+    {
+      goToSlide(0);
+    }else {
+      goToSlide(currSlide+1);
+    }
+  }
+</script>
+<style>
+  body{
+    margin: 0px;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+  }
+  .slide{
+    position: absolute;
+    height: calc(100% - 80px);
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+  #ssWrapper
+  {
+    width: 100%;
+    height: calc(100% - 80px);
+  }
+  #numWrapper{
+    height: 60px;
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 120px);
+  }
+  #arrowWrapper
+  {
+    height: 60px;
+    position: absolute;
+    bottom: 10px;
+    width: 120px;
+    right: 0px;
+  }
+  #arrowWrapper button
+  {
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  #numWrapper button
+  {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 30px;
+    margin-left: 10px;
+    border: none;
+  }
+  button.active
+  {
+    background-color: gold;
+  }
+</style>
+
+</head>
+
+<body onload='buildSS()'>
+  <div id='ssWrapper'> </div>
+  <div id='numWrapper'> </div>
+  <div id='arrowWrapper'>
+    <button onclick='prev()'> < </button>
+    <button onclick='next()'> > </button>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<html>
+
+<head>
+<style>
+#list{
+  position: absolute;
+  left: 0px;
+  width: 200px;
+  background: rgba(0,0,0,.1);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#details{
+  position: absolute;
+  right: 0px;
+  width: calc(100% - 200px);
+  background: rgba(0,0,0,.05);
+}
+</style>
+  <script src='asyncReq.js'></script>
+  <script>
+
+    function itemSelected(index){
+      var markup = "";
+	  var imageURL = rssData[index]["im:image"][2].label;
+	  var imageHeight = rssData[index]["im:image"][2].attributes.height;
+	  markup += '<img height="'+imageHeight+'" src="'+imageURL+'">';
+	  markup += '<h1>'+rssData[index]["im:name"].label+'</h1><h2>Written by: '+rssData[index]["im:artist"].label+'</h2><hr>'
+	  markup += '<h3>Published by: '+rssData[index]["im:publisher"].label+'<br>'+rssData[index]["im:releaseDate"].attributes.label+'</h3><hr>';
+	  markup += '<h3>Summary:</h3><p>'+rssData[index].summary.label+'</p>';
+	  var linkURL = rssData[index].link.attributes.href
+	  markup += '<a target="_blank" href='+linkURL+'>'+linkURL+'</a>';
+      document.getElementById("details").innerHTML = markup;
+    }
+
+    var rssData = [];
+    var filename = "./itunes.json";
+    var callback = function(res){
+      var data = JSON.parse(res).feed.entry;
+      rssData = data;
+      var markup = "";
+      for(var i = 0; i < data.length; i++){
+        var item = data[i];
+		var imageURL = rssData[i]["im:image"][0].label;
+		var imageHeight = rssData[i]["im:image"][0].attributes.height;
+        markup += "<a href='javascript:itemSelected(" + i + ")'>" + '<img height="'+imageHeight+'" src="'+imageURL+'">'+item.title.label + "</a>"; 
+        markup += "<hr>";
+      }
+
+      document.getElementById("list").innerHTML = markup;
+    }
+
+    loadFile(filename, callback);
+  </script>
+</head>
+
+<body>
+<h1> iTunes RSS Reader </h1>
+<div id='list'> </div>
+<div id='details'> </div>
+</body>
+
+
+</html>
